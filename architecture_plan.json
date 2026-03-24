@@ -1,0 +1,262 @@
+{
+  "version": "2.0",
+  "description": "MouseAI - Лучшая программа для анализа игровой мыши в мире",
+  "architecture": {
+    "core": {
+      "name": "Core Engine",
+      "description": "Ядро системы - сбор данных, обработка, хранение",
+      "modules": [
+        {
+          "name": "DataCollector",
+          "description": "Сбор данных с мыши, клавиатуры, системных метрик",
+          "platforms": [
+            "Windows",
+            "macOS",
+            "Linux"
+          ],
+          "tech": [
+            "pynput",
+            "pywin32",
+            "Quartz",
+            "Xlib"
+          ]
+        },
+        {
+          "name": "GameDetector",
+          "description": "Авто-детект игр по процессам и окнам",
+          "games": [
+            "CS2",
+            "PUBG",
+            "Valorant",
+            "Apex",
+            "Overwatch",
+            "Fortnite"
+          ],
+          "tech": [
+            "psutil",
+            "pygetwindow",
+            "OCR"
+          ]
+        },
+        {
+          "name": "StorageManager",
+          "description": "Хранение сессий, метрик, ML моделей",
+          "tech": [
+            "SQLite",
+            "JSON",
+            "Pickle"
+          ]
+        }
+      ]
+    },
+    "analysis": {
+      "name": "Analysis Engine",
+      "description": "Научный анализ движений, ML, рекомендации",
+      "modules": [
+        {
+          "name": "ScientificMetrics",
+          "description": "Научные метрики из mousetrap и исследований",
+          "metrics": [
+            "Sample Entropy (сложность движений)",
+            "Maximum Absolute Deviation (отклонение от прямой)",
+            "Area Under Curve (эффективность траекторий)",
+            "Bimodality Coefficient (два режима скорости)",
+            "Time to Peak Velocity (взрывная сила)"
+          ]
+        },
+        {
+          "name": "MLModels",
+          "description": "Нейросети и ML алгоритмы",
+          "models": [
+            "LSTM для анализа последовательностей",
+            "Siamese Network для сравнения стилей",
+            "K-means для кластеризации",
+            "Random Forest для рекомендаций",
+            "CNN для визуализации траекторий"
+          ]
+        },
+        {
+          "name": "StyleAnalyzer",
+          "description": "Анализ стиля игры (фликер, трекер, микроджастер)",
+          "tech": [
+            "Clustering",
+            "Classification",
+            "Embeddings"
+          ]
+        }
+      ]
+    },
+    "visualization": {
+      "name": "Visualization Engine",
+      "description": "Визуализация данных, графики, анимации",
+      "modules": [
+        {
+          "name": "Heatmaps",
+          "description": "Тепловые карты движений и кликов",
+          "tech": [
+            "matplotlib",
+            "seaborn",
+            "opencv"
+          ]
+        },
+        {
+          "name": "3DVisualizer",
+          "description": "3D траектории и эмбеддинги",
+          "tech": [
+            "plotly",
+            "matplotlib",
+            "numpy"
+          ]
+        },
+        {
+          "name": "ProgressDashboard",
+          "description": "Интерактивные графики прогресса",
+          "tech": [
+            "PySide6",
+            "matplotlib",
+            "web"
+          ]
+        }
+      ]
+    },
+    "integration": {
+      "name": "Integration Layer",
+      "description": "Интеграции с внешними сервисами",
+      "modules": [
+        {
+          "name": "DiscordBot",
+          "description": "Отправка достижений и рекомендаций",
+          "tech": [
+            "discord.py",
+            "webhooks"
+          ]
+        },
+        {
+          "name": "TelegramBot",
+          "description": "Ежедневные отчеты и уведомления",
+          "tech": [
+            "python-telegram-bot"
+          ]
+        },
+        {
+          "name": "OBSOverlay",
+          "description": "Оверлей для стримов",
+          "tech": [
+            "OBS WebSocket",
+            "HTML/CSS"
+          ]
+        },
+        {
+          "name": "RESTAPI",
+          "description": "API для разработчиков",
+          "tech": [
+            "FastAPI",
+            "Swagger"
+          ]
+        }
+      ]
+    },
+    "automation": {
+      "name": "Automation Engine",
+      "description": "Полная автоматизация процессов",
+      "modules": [
+        {
+          "name": "AutoSessionManager",
+          "description": "Авто-старт/стоп сессий при запуске игр",
+          "tech": [
+            "Process monitoring",
+            "Window detection"
+          ]
+        },
+        {
+          "name": "AutoAnalyzer",
+          "description": "Автоматический анализ после каждой сессии",
+          "tech": [
+            "Background processing",
+            "ML inference"
+          ]
+        },
+        {
+          "name": "AutoUpdater",
+          "description": "Авто-обновление ML моделей и рекомендаций",
+          "tech": [
+            "Online learning",
+            "Model versioning"
+          ]
+        }
+      ]
+    }
+  },
+  "data_flow": [
+    "1. GameDetector detects game launch",
+    "2. DataCollector starts recording mouse/keyboard",
+    "3. Session data stored in StorageManager",
+    "4. AutoAnalyzer processes session with ML models",
+    "5. ScientificMetrics calculates advanced metrics",
+    "6. StyleAnalyzer identifies player style",
+    "7. Recommendations generated based on analysis",
+    "8. Results sent to integrations (Discord, Telegram)",
+    "9. Visualizations updated in real-time",
+    "10. Models updated with new data"
+  ],
+  "tech_stack": {
+    "core": [
+      "Python 3.12",
+      "PySide6",
+      "SQLite"
+    ],
+    "ml": [
+      "PyTorch",
+      "scikit-learn",
+      "numpy",
+      "scipy"
+    ],
+    "visualization": [
+      "matplotlib",
+      "seaborn",
+      "plotly",
+      "opencv"
+    ],
+    "automation": [
+      "pynput",
+      "psutil",
+      "pygetwindow"
+    ],
+    "integration": [
+      "requests",
+      "discord.py",
+      "FastAPI"
+    ],
+    "testing": [
+      "pytest",
+      "unittest",
+      "selenium"
+    ]
+  },
+  "platforms": {
+    "windows": {
+      "status": "full_support",
+      "features": [
+        "RAW Input",
+        "Process monitoring",
+        "System integration"
+      ]
+    },
+    "macos": {
+      "status": "full_support",
+      "features": [
+        "Quartz Events",
+        "Accessibility",
+        "Dock integration"
+      ]
+    },
+    "linux": {
+      "status": "full_support",
+      "features": [
+        "X11/Wayland",
+        "evdev",
+        "systemd integration"
+      ]
+    }
+  }
+}
