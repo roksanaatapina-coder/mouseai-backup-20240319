@@ -1,0 +1,7 @@
+{
+  "version": "0.1",
+  "default_game": "Universal",
+  "sessions_folder": "sessions",
+  "show_help_text": true,
+  "always_on_top": false
+}
