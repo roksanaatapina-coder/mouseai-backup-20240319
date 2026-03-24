@@ -1,0 +1,15 @@
+app.py
+config.py
+collector.py
+game_detector.py
+analyzer.py
+recommendations.py
+storage.py
+ui/
+  main_window.py
+  game_selection.py
+  dashboard.py
+  settings_panel.py
+data/
+requirements.txt
+README.md
