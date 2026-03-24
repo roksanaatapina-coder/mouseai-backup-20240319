@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MouseAI Esports UI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;800&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0b0c10;
+            color: #c5c6c7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            gap: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            background-image: 
+                linear-gradient(45deg, rgba(255, 0, 60, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 0, 60, 0.05) 50%, rgba(255, 0, 60, 0.05) 75%, transparent 75%, transparent);
+            background-size: 40px 40px;
+        }
+        
+        .panel {
+            background: #111217;
+            border: 2px solid #ff003c;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 5px 5px 0px rgba(255, 0, 60, 0.2);
+        }
+        
+        .sidebar {
+            flex: 1;
+            max-width: 350px;
+        }
+        
+        .main-content {
+            flex: 2;
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #ff003c;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+        
+        .card {
+            background: #0b0c10;
+            padding: 16px;
+            border: 1px solid #ff003c;
+            position: relative;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 10px; height: 10px;
+            border-top: 2px solid #ff003c;
+            border-left: 2px solid #ff003c;
+        }
+        
+        .btn {
+            background: transparent;
+            color: #ff003c;
+            border: 1px solid #ff003c;
+            padding: 12px 24px;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            width: 100%;
+        }
+        
+        .btn-green {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .btn-green:hover { background: #4CAF50; color: #0b0c10; border-color: #4CAF50; box-shadow: 0 0 15px rgba(76, 175, 80, 0.5); }
+        
+        .btn-red {
+            border-color: #c8002f;
+            color: #c8002f;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn:hover:not(.btn-red, .btn-green) {
+            background: #ff003c;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
+        }
+        
+        .btn-blue {
+            background: #ff003c;
+            color: #ffffff;
+        }
+        .btn-blue:hover {
+            background: #c8002f;
+            border-color: #c8002f;
+            box-shadow: 0 0 20px rgba(200, 0, 47, 0.8);
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #c5c6c7;
+        }
+        
+        .status-indicator {
+            color: #ff003c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ff003c;
+            margin: 10px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            text-shadow: 2px 2px 0px rgba(255,0,60,0.3);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .graph-placeholder {
+            height: 180px;
+            width: 100%;
+            background: #0b0c10;
+            border: 1px solid #ff003c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff003c;
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .graph-line {
+            position: absolute;
+            left: -100%;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,0,60,0.2) 80%, rgba(255,0,60,0.8));
+            animation: radar 2s infinite linear;
+        }
+
+        @keyframes radar {
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="panel sidebar">
+        <h2>MouseAI [Esports]</h2>
+        <div class="card">
+            <h3 style="margin-top:0; color:#fff; text-transform:uppercase;">Session Control</h3>
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <button class="btn btn-green">Start</button>
+                <button class="btn btn-red">Stop</button>
+            </div>
+            
+            <div class="status-row">
+                <span>STATUS:</span>
+                <span class="status-indicator">🔴 RECORDING...</span>
+            </div>
+            <div class="status-row" style="margin-top: 10px;">
+                <span>ELAPSED:</span>
+                <span style="color:#fff;">12.4s</span>
+            </div>
+        </div>
+        
+        <button class="btn btn-blue">⚡ AI BOOST ANALYSIS</button>
+        
+        <div class="card" style="flex:1;">
+            <h3 style="margin-top:0; color:#fff; text-transform:uppercase;">Selected Game</h3>
+            <select style="width:100%; padding:10px; background:#0b0c10; color:white; border:1px solid #ff003c; outline:none; font-family:'Segoe UI'; font-weight:bold; text-transform:uppercase;">
+                <option>Universal (Default)</option>
+                <option>Counter-Strike 2</option>
+                <option>Valorant</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="panel main-content">
+        <h2>Dashboard</h2>
+        
+        <div style="display:flex; gap:20px;">
+            <div class="card" style="flex:1;">
+                <div class="stat-label">Total Sessions</div>
+                <div class="stat-value">20</div>
+            </div>
+            <div class="card" style="flex:1;">
+                <div class="stat-label">Avg. Stability</div>
+                <div class="stat-value">84%</div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px;">
+            <h3 style="margin-top:0; color:#fff; text-transform:uppercase;">Live Analysis</h3>
+            <div class="graph-placeholder">
+                <div style="z-index:10; font-weight:bold; letter-spacing:2px;">[ TRACKING DATA ]</div>
+                <div class="graph-line"></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px; flex:1;">
+            <h3 style="margin-top:0; color:#fff; text-transform:uppercase;">Quick Actions</h3>
+            <div style="display:flex; gap:10px;">
+                <button class="btn">Analyze Last</button>
+                <button class="btn">Compare Pro</button>
+                <button class="btn">Trends</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
