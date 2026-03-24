@@ -1,0 +1,40 @@
+# Core dependencies
+PySide6>=6.8.0
+numpy>=1.26.0
+scipy>=1.12.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.17.0
+
+# Machine Learning
+torch>=2.1.0
+torchvision>=0.16.0
+scikit-learn>=1.3.0
+opencv-python>=4.8.0
+
+# Data Collection
+pynput>=1.7.6
+pywin32>=306; sys_platform == "win32"
+pygetwindow>=0.0.9
+psutil>=5.9.0
+
+# Game Detection
+pyautogui>=0.9.54
+Pillow>=10.1.0
+
+# Storage
+# (sqlite3, json, and pickle are built-in python libraries)
+
+# Integration
+requests>=2.31.0
+discord.py>=2.4.0
+python-telegram-bot>=20.7
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Testing
+pytest>=7.4.0
+selenium>=4.15.0
+
+# Utilities
+# (pathlib, datetime, time, threading, subprocess, os, sys, json, logging are built-in)
