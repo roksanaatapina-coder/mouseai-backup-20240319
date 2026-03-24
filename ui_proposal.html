@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MouseAI UI Proposal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0f;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            gap: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 188, 212, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(156, 39, 176, 0.15) 0%, transparent 40%);
+        }
+        
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            max-width: 350px;
+        }
+        
+        .main-content {
+            flex: 2;
+        }
+
+        .proposals {
+            flex: 1.5;
+            overflow-y: auto;
+            border-left: 2px dashed rgba(255,255,255,0.1);
+            padding-left: 20px;
+        }
+        
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: #00bcd4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: -webkit-linear-gradient(45deg, #00bcd4, #9c27b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 20px 0;
+        }
+        
+        .card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 188, 212, 0.5);
+        }
+        
+        .btn {
+            background: #2a2a35;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-green {
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+        }
+        
+        .btn-red {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-blue {
+            background: linear-gradient(45deg, #00bcd4, #2196f3);
+        }
+        
+        .btn:hover:not(.btn-red) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .status-indicator {
+            color: #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-indicator::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #4CAF50;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 10px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .graph-placeholder {
+            height: 150px;
+            width: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0,0,0,0.1),
+                rgba(0,0,0,0.1) 10px,
+                rgba(255,255,255,0.02) 10px,
+                rgba(255,255,255,0.02) 20px
+            );
+            border-radius: 8px;
+            border: 1px dashed rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graph-line {
+            position: absolute;
+            left: -100%;
+            bottom: 20%;
+            width: 100%;
+            height: 2px;
+            background: #00bcd4;
+            box-shadow: 0 0 10px #00bcd4;
+            animation: slide 3s infinite linear;
+        }
+        
+        @keyframes slide {
+            100% { left: 100%; }
+        }
+
+        ul.proposal-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul.proposal-list li {
+            margin-bottom: 20px;
+            background: rgba(0, 188, 212, 0.05);
+            padding: 15px;
+            border-left: 4px solid #9c27b0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        ul.proposal-list li strong {
+            color: #fff;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        ul.proposal-list li p {
+            color: #bbb;
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="panel sidebar">
+        <h2>MouseAI Console</h2>
+        <div class="card">
+            <h3 style="margin-top:0; color:#fff;">Session Control</h3>
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <button class="btn btn-green">Start Session</button>
+                <button class="btn btn-red">Stop Session</button>
+            </div>
+            
+            <div class="status-row">
+                <span>Status:</span>
+                <span class="status-indicator">Idle / Ready</span>
+            </div>
+            <div class="status-row" style="margin-top: 10px;">
+                <span>Elapsed:</span>
+                <span style="color:#fff;">0.0s</span>
+            </div>
+        </div>
+        
+        <button class="btn btn-blue">⚡ AI Boost Analysis</button>
+        
+        <div class="card" style="flex:1;">
+            <h3 style="margin-top:0; color:#fff;">Selected Game</h3>
+            <select style="width:100%; padding:10px; background:#1a1a24; color:white; border:1px solid #333; border-radius:6px; outline:none; font-family:Inter;">
+                <option>Universal (Default)</option>
+                <option>Counter-Strike 2</option>
+                <option>Valorant</option>
+                <option>PUBG</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="panel main-content">
+        <h2>Dashboard Preview</h2>
+        
+        <div style="display:flex; gap:20px;">
+            <div class="card" style="flex:1;">
+                <div class="stat-label">Total Sessions</div>
+                <div class="stat-value">20 <span style="font-size:0.8rem; color:#4CAF50;">+2 today</span></div>
+            </div>
+            <div class="card" style="flex:1;">
+                <div class="stat-label">Avg. Stability</div>
+                <div class="stat-value">84% <span style="font-size:0.8rem; color:#00bcd4;">Tracker Pattern</span></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px;">
+            <h3 style="margin-top:0; color:#fff;">Live Pattern Recognition</h3>
+            <div class="graph-placeholder">
+                [ Dynamic Graph Area ]
+                <div class="graph-line"></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px; flex:1;">
+            <h3 style="margin-top:0; color:#fff;">Quick Analysis</h3>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" style="background:rgba(255,255,255,0.1);">Analyze Last</button>
+                <button class="btn" style="background:rgba(255,255,255,0.1);">Compare vs Pro</button>
+                <button class="btn" style="background:rgba(255,255,255,0.1);">Trends Report</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel proposals">
+        <h1>Предложения по UI</h1>
+        
+        <ul class="proposal-list">
+            <li>
+                <strong>1. Темная киберпанк-тема (Dark Theme)</strong>
+                <p>Избавиться от дефолтного системного дизайна. Использовать глобальный <code>qdarktheme</code> для Qt, добавив неоновые акценты (голубой #00bcd4 и фиолетовый #9c27b0), как видно левее. Это придаст приложению премиальный "геймерский" вид.</p>
+            </li>
+            <li>
+                <strong>2. Эффект матового стекла (Glassmorphism)</strong>
+                <p>Для контейнеров и карточек использовать прозрачно-черные фоны с закругленными углами и тонкими рамками (border: 1px solid rgba(255,255,255,0.1)). Это не утяжеляет интерфейс и выглядит "дорого".</p>
+            </li>
+            <li>
+                <strong>3. Динамичные графики в реальном времени</strong>
+                <p>Вместо текста использовать модули `pyqtgraph`. Когда сессия завершается, рисовать красивый сглаженный график движений с градиентной заливкой и радар-чарт с 5-ю осями скилла.</p>
+            </li>
+            <li>
+                <strong>4. Современная Типографика</strong>
+                <p>Подключить шрифт <strong>Inter</strong> или <strong>Segoe UI Variable</strong> вместо стандартного Tahoma/Arial. Огромные жирные цифры для метрик и контрастный мелкий текст для подписей.</p>
+            </li>
+            <li>
+                <strong>5. Микро-взаимодействия (Анимации)</strong>
+                <p>Добавить <code>QPropertyAnimation</code> на кнопки: плавное изменение цвета при наведении (как кнопки слева), масштабирование и красивые переходы (FadeIn) при смене вкладок или загрузке результатов ИИ.</p>
+            </li>
+        </ul>
+        
+        <p style="color:#aaa; font-size:0.9rem; margin-top:30px; text-align:center;">
+          *Это интерактивный HTML-концепт для демонстрации того, как может выглядеть MouseAI 2.0 на PySide6 после рестилинга.*
+        </p>
+    </div>
+
+</body>
+</html>
